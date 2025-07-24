@@ -2479,38 +2479,31 @@ src="https://www.facebook.com/tr?id=482675157669768&ev=PageView&noscript=1"
             const categoriesContainer = document.getElementById('categories-container');
             if (!categoriesContainer) return;
 
-            let isScrolling;
-            const scrollSpeed = 1; // Adjust for speed
+            const originalNodes = Array.from(categoriesContainer.querySelectorAll('.category'));
+            originalNodes.forEach(node => {
+                const clone = node.cloneNode(true);
+                clone.setAttribute('aria-hidden', 'true');
+                categoriesContainer.appendChild(clone);
+            });
 
-            function startScrolling() {
-                if (isScrolling) return;
-                isScrolling = true;
-                scroll();
-            }
+            let scrollAmount = 0;
+            let isPaused = false;
 
             function scroll() {
-                if (!isScrolling) return;
-                categoriesContainer.scrollLeft += scrollSpeed;
-                if (categoriesContainer.scrollLeft >= categoriesContainer.scrollWidth / 2) {
-                    categoriesContainer.scrollLeft = 0;
+                if (!isPaused) {
+                    scrollAmount += 0.5;
+                    if (scrollAmount >= categoriesContainer.scrollWidth / 2) {
+                        scrollAmount = 0;
+                    }
+                    categoriesContainer.style.transform = `translateX(-${scrollAmount}px)`;
                 }
                 requestAnimationFrame(scroll);
             }
 
-            function stopScrolling() {
-                isScrolling = false;
-            }
+            categoriesContainer.addEventListener('mouseenter', () => isPaused = true);
+            categoriesContainer.addEventListener('mouseleave', () => isPaused = false);
 
-            // Clone and append nodes to create the illusion of an infinite loop
-            const originalNodes = categoriesContainer.querySelectorAll('.category');
-            originalNodes.forEach(node => {
-                categoriesContainer.appendChild(node.cloneNode(true));
-            });
-
-            categoriesContainer.addEventListener('mouseenter', stopScrolling);
-            categoriesContainer.addEventListener('mouseleave', startScrolling);
-
-            startScrolling(); // Auto-start the loop
+            scroll();
         }
 
         function handleHashChange(isInitialLoad = false) {
