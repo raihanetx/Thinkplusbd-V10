@@ -463,10 +463,10 @@ src="https://www.facebook.com/tr?id=482675157669768&ev=PageView&noscript=1"
             }
             .category {
                 border-width: 2px;
-                padding: 0.3125rem 0.25rem;
+                padding: 0.15625rem 0.125rem;
             }
         }
-        .category-name { font-size: 0.8rem; font-weight: 600; color: var(--text-color); line-height: 1.3; margin-bottom: 0.35rem; }
+        .category-name { font-size: 0.7rem; font-weight: 600; color: var(--text-color); line-height: 1.3; margin-bottom: 0.35rem; }
         .category-subtitle { font-size: 0.65rem; color: #666666; line-height: 1.4; }
 
         .featured-section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; margin-top: 2.5rem; }
@@ -1072,7 +1072,7 @@ src="https://www.facebook.com/tr?id=482675157669768&ev=PageView&noscript=1"
             .category { padding: 0.9rem 0.65rem; border-radius: 11px; }
             .category-icon-wrapper { width: 45px; height: 45px; border-radius: 9px; margin-bottom: 0.65rem; }
             .category i.category-icon-fa { font-size: 1.4rem; }
-            .category-name { font-size: 0.9rem; }
+            .category-name { font-size: 0.7rem; }
             .category-subtitle { font-size: 0.65rem; }
             .footer-brand-info { display: none !important; }
             .footer-content { grid-template-columns: 1fr; gap: 1.8rem; }
@@ -1170,7 +1170,7 @@ src="https://www.facebook.com/tr?id=482675157669768&ev=PageView&noscript=1"
             .categories.container { gap: 0.45rem; padding-left: 0.65rem; padding-right: 0.65rem; padding-top: 0; padding-bottom: 0.22rem; }
             .category-icon-wrapper { width: 40px; height: 40px; border-radius: 7px;}
             .category i.category-icon-fa { font-size: 1.25rem; }
-            .category-name { font-size: 0.8rem; }
+            .category-name { font-size: 0.7rem; }
             .category-subtitle { font-size: 0.63rem; }
             .product-detail-title { font-size: 1.45rem; }
             .product-detail-price { font-size: 1.25rem; }
@@ -1949,7 +1949,7 @@ src="https://www.facebook.com/tr?id=482675157669768&ev=PageView&noscript=1"
                     categoryEl.onclick = () => navigateTo('products', category.name.toLowerCase());
                     categoryEl.innerHTML = `
                         <div class="category-icon-wrapper"><i class="${category.icon} category-icon-fa" aria-hidden="true"></i></div>
-                        <p class="category-name">${category.name.toUpperCase()}</p>
+                        <p class="category-name" style="text-transform: capitalize;">${category.name.toLowerCase()}</p>
                     `;
                     container.appendChild(categoryEl);
 
@@ -1998,7 +1998,7 @@ src="https://www.facebook.com/tr?id=482675157669768&ev=PageView&noscript=1"
             if (domElements.checkoutForm) { domElements.checkoutForm.addEventListener('submit', (event) => { event.preventDefault(); placeOrder(); }); }
             setupEnglishCheckoutForm();
             setupImageLoading();
-            setupCategoryAnimation();
+            // setupCategoryAnimation();
         }
 
         function showToast(message, type = 'info', duration = 3000) { const toastElement = domElements.toast; if (!toastElement) return; if (toastElement.timerId) { clearTimeout(toastElement.timerId); } toastElement.textContent = message; toastElement.className = 'toast show'; if (type === 'success') toastElement.classList.add('success'); else if (type === 'error') toastElement.classList.add('error'); else if (type === 'error critical') toastElement.classList.add('error', 'critical'); else if (type === 'info') toastElement.classList.add('info'); toastElement.offsetHeight; toastElement.timerId = setTimeout(() => { toastElement.className = 'toast'; toastElement.timerId = null; }, duration); }
