@@ -2483,27 +2483,29 @@ src="https://www.facebook.com/tr?id=482675157669768&ev=PageView&noscript=1"
             const scrollSpeed = 1; // Adjust for speed
 
             function startScrolling() {
-                if (categoriesContainer.isScrolling) return;
-                categoriesContainer.isScrolling = true;
+                if (isScrolling) return;
+                isScrolling = true;
                 scroll();
             }
 
             function scroll() {
-                if (!categoriesContainer.isScrolling) return;
+                if (!isScrolling) return;
                 categoriesContainer.scrollLeft += scrollSpeed;
-                if (categoriesContainer.scrollLeft >= categoriesContainer.scrollWidth - categoriesContainer.clientWidth) {
-                    // When it reaches the end, clone and append nodes to create an infinite effect
-                    const originalNodes = categoriesContainer.querySelectorAll('.category');
-                    originalNodes.forEach(node => {
-                        categoriesContainer.appendChild(node.cloneNode(true));
-                    });
+                if (categoriesContainer.scrollLeft >= categoriesContainer.scrollWidth / 2) {
+                    categoriesContainer.scrollLeft = 0;
                 }
                 requestAnimationFrame(scroll);
             }
 
             function stopScrolling() {
-                categoriesContainer.isScrolling = false;
+                isScrolling = false;
             }
+
+            // Clone and append nodes to create the illusion of an infinite loop
+            const originalNodes = categoriesContainer.querySelectorAll('.category');
+            originalNodes.forEach(node => {
+                categoriesContainer.appendChild(node.cloneNode(true));
+            });
 
             categoriesContainer.addEventListener('mouseenter', stopScrolling);
             categoriesContainer.addEventListener('mouseleave', startScrolling);
