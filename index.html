@@ -463,6 +463,7 @@ src="https://www.facebook.com/tr?id=482675157669768&ev=PageView&noscript=1"
             }
             .category {
                 border-width: 2px;
+                padding: 0.3125rem 0.25rem;
             }
         }
         .category-name { font-size: 0.8rem; font-weight: 600; color: var(--text-color); line-height: 1.3; margin-bottom: 0.35rem; }
@@ -2478,38 +2479,36 @@ src="https://www.facebook.com/tr?id=482675157669768&ev=PageView&noscript=1"
             const categoriesContainer = document.getElementById('categories-container');
             if (!categoriesContainer) return;
 
-            const handleScroll = () => {
-                const containerRect = categoriesContainer.getBoundingClientRect();
-                const containerCenter = containerRect.left + containerRect.width / 2;
+            let isScrolling;
+            const scrollSpeed = 1; // Adjust for speed
 
-                let minDistance = Infinity;
-                let activeCategory = null;
+            function startScrolling() {
+                if (categoriesContainer.isScrolling) return;
+                categoriesContainer.isScrolling = true;
+                scroll();
+            }
 
-                const categories = categoriesContainer.querySelectorAll('.category');
-                categories.forEach(category => {
-                    const categoryRect = category.getBoundingClientRect();
-                    const categoryCenter = categoryRect.left + categoryRect.width / 2;
-                    const distance = Math.abs(containerCenter - categoryCenter);
+            function scroll() {
+                if (!categoriesContainer.isScrolling) return;
+                categoriesContainer.scrollLeft += scrollSpeed;
+                if (categoriesContainer.scrollLeft >= categoriesContainer.scrollWidth - categoriesContainer.clientWidth) {
+                    // When it reaches the end, clone and append nodes to create an infinite effect
+                    const originalNodes = categoriesContainer.querySelectorAll('.category');
+                    originalNodes.forEach(node => {
+                        categoriesContainer.appendChild(node.cloneNode(true));
+                    });
+                }
+                requestAnimationFrame(scroll);
+            }
 
-                    if (distance < minDistance) {
-                        minDistance = distance;
-                        activeCategory = category;
-                    }
-                });
+            function stopScrolling() {
+                categoriesContainer.isScrolling = false;
+            }
 
-                categories.forEach(category => {
-                    if (category === activeCategory) {
-                        category.classList.add('active');
-                    } else {
-                        category.classList.remove('active');
-                    }
-                });
-            };
+            categoriesContainer.addEventListener('mouseenter', stopScrolling);
+            categoriesContainer.addEventListener('mouseleave', startScrolling);
 
-            categoriesContainer.addEventListener('scroll', handleScroll, { passive: true });
-
-            // Initial check
-            handleScroll();
+            startScrolling(); // Auto-start the loop
         }
 
         function handleHashChange(isInitialLoad = false) {
