@@ -452,7 +452,12 @@ src="https://www.facebook.com/tr?id=482675157669768&ev=PageView&noscript=1"
         }
         @media (min-width: 769px) {
             .categories {
-                grid-template-columns: repeat(5, 1fr);
+                display: flex;
+                overflow-x: auto;
+            }
+            .category {
+                flex: 1 1 0;
+                min-width: calc(100% / 5 - 1rem);
             }
         }
         .category-name { font-size: 1.1rem; font-weight: 600; color: var(--text-color); line-height: 1.3; margin-bottom: 0.35rem; }
